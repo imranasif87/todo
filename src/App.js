@@ -116,6 +116,7 @@ function App() {
         .remove()
         .then(() => {
           console.log('Todo deleted successfully');
+          setItemToDelete(null);
         })
         .catch((error) => {
           console.error('Error deleting todo:', error);

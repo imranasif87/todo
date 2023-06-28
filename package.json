@@ -16,6 +16,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "clean-docs": "rimraf docs",
+    "custom-build": "npm run clean-docs && react-scripts build && xcopy /E /I build docs && rimraf build",
+    "predeploy": "npm run custom-build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
