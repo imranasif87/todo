@@ -7,6 +7,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState('all');
   const [newTodoText, setNewTodoText] = useState('');
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   useEffect(() => {
     const todosRef = db.ref('todos');
@@ -62,6 +63,16 @@ function App() {
     setNewTodoText(e.target.value);
   };
 
+  function ConfirmationDialog({ item, onDelete, onCancel }) {
+    return (
+      <div className="confirmation-dialog">
+        <p>Are you sure you want to delete this item?</p>
+        <button onClick={() => onDelete(item)} className="button-danger">Yes</button>
+        <button onClick={onCancel}>No</button>
+      </div>
+    );
+  }
+
   const handleAddTodo = () => {
     const todosRef = db.ref('todos');
     const newTodoRef = todosRef.push();
@@ -96,12 +107,12 @@ function App() {
       });
   };
 
-  const handleDeleteTodo = (todoId, completed) => {
+  const handleDeleteTodo = (item) => {
     const todosRef = db.ref('todos');
 
-    if (!completed) {
+    if (!item.completed) {
       todosRef
-        .child(todoId)
+        .child(item.id)
         .remove()
         .then(() => {
           console.log('Todo deleted successfully');
@@ -129,6 +140,13 @@ function App() {
 
   return (
     <div className="App">
+      {itemToDelete && (
+        <ConfirmationDialog
+          item={itemToDelete}
+          onDelete={handleDeleteTodo}
+          onCancel={() => setItemToDelete(null)}
+        />
+      )}
       <div className="todo-container">
         <h1>ToDo App</h1>
         <div className="todo-input">
@@ -141,17 +159,19 @@ function App() {
           <button className="button button-primary" onClick={handleAddTodo}>Add</button>
         </div>
         <div className="sort-buttons">
-          <button onClick={() => handleFilterChange('all')} className={filter === 'all' ? 'active' : ''}>All Todos</button>
-          <button onClick={() => handleFilterChange('active')} className={filter === 'active' ? 'active' : ''}>Active</button>
-          <button onClick={() => handleFilterChange('completed')} className={filter === 'completed' ? 'active' : ''}>Completed</button>
+          <button onClick={() => handleFilterChange('all')} className={filter === 'all' ? 'active' : ''}>All ({filteredTodos.length})</button>
+          <button onClick={() => handleFilterChange('active')} className={filter === 'active' ? 'active' : ''}>Active ({filteredTodos.filter(x => !x.completed).length}) </button>
+          <button onClick={() => handleFilterChange('completed')} className={filter === 'completed' ? 'active' : ''}>Completed ({filteredTodos.filter(x => x.completed).length})</button>
         </div>
         <ol className="todo-list">
           {filteredTodos.map((todo) => (
             <li className={`todo-item ${todo.completed ? 'todo-completed' : ''}`} key={todo.id}>
               <span className="todo-text">{todo.text}</span>
               <div className="todo-actions">
-                <button onClick={() => handleToggleComplete(todo.id, todo.completed)}>Toggle</button>
-                <button onClick={() => handleDeleteTodo(todo.id, todo.completed)}>Delete</button>
+                <button onClick={() => handleToggleComplete(todo.id, todo.completed)}>
+                  {todo.completed ? <span>Completed</span> : <span>Is Completed?</span>}
+                </button>
+                <button onClick={() => setItemToDelete(todo)}>Delete</button>
               </div>
             </li>
           ))}

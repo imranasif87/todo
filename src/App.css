@@ -1,3 +1,7 @@
+body {
+  background-color: #f5f5f5;
+  /* background-image: url('texture-pattern.jpg'); */
+}
 /* Styles for larger screens */
 .todo-container {
   max-width: 500px;
@@ -77,8 +81,8 @@
 }
 
 .button-danger {
-  background-color: #dc3545;
-  color: #fff;
+  background-color: #dc3545 !important;
+  color: #fff !important;
 }
 
 .button-danger:hover {
@@ -106,6 +110,42 @@
   color: #007bff;
 }
 
+.confirmation-dialog {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  width: 30%;
+  text-align: center;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.confirmation-dialog p {
+  margin-bottom: 10px;
+}
+
+.confirmation-dialog button {
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #ccc;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.confirmation-dialog button:hover {
+  background-color: #555;
+}
+
+@media screen and (max-width: 480px) {
+  .confirmation-dialog {
+    width: 80% !important;
+  }
+}
 /* Styles for smaller screens */
 @media (max-width: 480px) {
   .todo-container {
