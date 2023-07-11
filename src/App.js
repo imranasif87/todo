@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState('active');
   const [newTodoText, setNewTodoText] = useState('');
   const [itemToDelete, setItemToDelete] = useState(null);
 
@@ -26,7 +26,6 @@ function App() {
         console.error('Error fetching todos:', error);
       });
 
-    // Listen for new todo additions in real-time
     // Listen for new todo additions in real-time
     todosRef.on('child_added', (snapshot) => {
       const newTodo = {
