@@ -159,9 +159,9 @@ function App() {
           <button className="button button-primary" onClick={handleAddTodo}>Add</button>
         </div>
         <div className="sort-buttons">
-          <button onClick={() => handleFilterChange('all')} className={filter === 'all' ? 'active' : ''}>All ({filteredTodos.length})</button>
-          <button onClick={() => handleFilterChange('active')} className={filter === 'active' ? 'active' : ''}>Active ({filteredTodos.filter(x => !x.completed).length}) </button>
-          <button onClick={() => handleFilterChange('completed')} className={filter === 'completed' ? 'active' : ''}>Completed ({filteredTodos.filter(x => x.completed).length})</button>
+          <button onClick={() => handleFilterChange('all')} className={filter === 'all' ? 'active' : ''}>All ({todos.length})</button>
+          <button onClick={() => handleFilterChange('active')} className={filter === 'active' ? 'active' : ''}>Active ({todos.filter(x => !x.completed).length}) </button>
+          <button onClick={() => handleFilterChange('completed')} className={filter === 'completed' ? 'active' : ''}>Completed ({todos.filter(x => x.completed).length})</button>
         </div>
         <ol className="todo-list">
           {filteredTodos.map((todo) => (
